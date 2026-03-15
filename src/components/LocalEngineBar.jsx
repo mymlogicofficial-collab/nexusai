@@ -29,12 +29,13 @@ export default function LocalEngineBar({ onStatusChange }) {
 
   const disconnect = () => localChatBridge.disconnect();
 
-  const { color, label, Icon, spin } = STATUS_STYLE[status] || STATUS_STYLE.disconnected;
+  const cfg = STATUS_STYLE[status] || STATUS_STYLE.disconnected;
+  const StatusIcon = cfg.Icon;
 
   return (
     <div className="flex items-center gap-2 px-3 py-1.5 flex-shrink-0"
       style={{ background: "#06060e", borderBottom: "1px solid #111120" }}>
-      <Icon size={11} className={spin ? "animate-spin" : ""} style={{ color }} />
+      <StatusIcon size={11} className={cfg.spin ? "animate-spin" : ""} style={{ color: cfg.color }} />
       <span className="text-[10px] font-mono tracking-widest" style={{ color }}>{label}</span>
 
       <div className="flex-1" />
