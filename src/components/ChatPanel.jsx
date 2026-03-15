@@ -211,11 +211,17 @@ export default function ChatPanel() {
             <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0" style={{ border: "1px solid #1a2744" }}>
               <img src={LOGO} className="w-full h-full object-contain p-0.5" alt="S.A.I.D." />
             </div>
-            <div className="chat-bubble-ai rounded-xl px-4 py-3 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 dot-1" />
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 dot-2" />
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 dot-3" />
-            </div>
+            {streamBuffer ? (
+              <div className="chat-bubble-ai rounded-xl px-3.5 py-2.5 max-w-[72%]">
+                <p className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: "#c8d1e0" }}>{streamBuffer}<span className="inline-block w-1.5 h-3.5 bg-blue-400 ml-0.5 animate-pulse align-middle" /></p>
+              </div>
+            ) : (
+              <div className="chat-bubble-ai rounded-xl px-4 py-3 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 dot-1" />
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 dot-2" />
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 dot-3" />
+              </div>
+            )}
           </div>
         )}
         <div ref={bottomRef} />
