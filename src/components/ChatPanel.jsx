@@ -42,6 +42,8 @@ export default function ChatPanel() {
   const [isListening, setIsListening] = useState(false);
   const [ttsEnabled, setTtsEnabled] = useState(false);
   const [isThinking, setIsThinking] = useState(false);
+  const [localStatus, setLocalStatus] = useState(localChatBridge.status);
+  const [streamBuffer, setStreamBuffer] = useState("");
   const bottomRef = useRef(null);
   const fileRef = useRef(null);
   const recRef = useRef(null);
