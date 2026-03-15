@@ -1,14 +1,14 @@
 import { useState } from "react";
-import Sidebar from "../components/layout/Sidebar";
-import TopBar from "../components/layout/TopBar";
-import ChatPanel from "../components/panels/ChatPanel";
-import SandboxPanel from "../components/panels/SandboxPanel";
-import TerminalPanel from "../components/panels/TerminalPanel";
-import GeneratePanel from "../components/panels/GeneratePanel";
-import FilesPanel from "../components/panels/FilesPanel";
-import MemoryPanel from "../components/panels/MemoryPanel";
-import IdentityPanel from "../components/panels/IdentityPanel";
-import AppEditorPanel from "../components/panels/AppEditorPanel";
+import Sidebar from "../components/Sidebar";
+import TopBar from "../components/TopBar";
+import ChatPanel from "../components/ChatPanel";
+import SandboxPanel from "../components/SandboxPanel";
+import TerminalPanel from "../components/TerminalPanel";
+import GeneratePanel from "../components/GeneratePanel";
+import FilesPanel from "../components/FilesPanel";
+import MemoryPanel from "../components/MemoryPanel";
+import IdentityPanel from "../components/IdentityPanel";
+import AppEditorPanel from "../components/AppEditorPanel";
 
 const PANELS = {
   chat: ChatPanel,
