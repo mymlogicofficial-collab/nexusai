@@ -1,34 +1,20 @@
-/**
- * S.A.I.D. Local Chat Bridge
- * Connects to a local WebSocket chat engine.
- *
- * Expected protocol:
- *   SEND:    { type: "message", role: "user", content: "...", history: [...] }
- *   RECEIVE: { type: "message", role: "assistant", content: "..." }
- *   RECEIVE: { type: "token", content: "..." }   // streaming token
- *   RECEIVE: { type: "done" }                     // end of stream
- *   RECEIVE: { type: "error", message: "..." }
- *
- * Plain text fallback: raw string responses are treated as assistant messages.
- */
+import { io } from "socket.io-client";
 
 class LocalChatBridge {
   constructor() {
-    this.ws = null;
-    this.status = "disconnected"; // disconnected | connecting | connected | error
+    this.socket = null;
+    this.status = "disconnected";
+    this.port = parseInt(localStorage.getItem("said_local_port") || "5000", 10);
     this.onStatusChange = null;
     this.onMessage = null;
     this.onToken = null;
     this.onDone = null;
     this.onError = null;
-    this.reconnectTimer = null;
-    this.autoReconnect = false;
-    this.port = parseInt(localStorage.getItem("said_local_port") || "8765", 10);
   }
 
-  _setStatus(status) {
-    this.status = status;
-    this.onStatusChange?.(status);
+  _setStatus(s) {
+    this.status = s;
+    this.onStatusChange?.(s);
   }
 
   connect(port) {
@@ -36,61 +22,61 @@ class LocalChatBridge {
       this.port = port;
       localStorage.setItem("said_local_port", String(port));
     }
-    if (this.ws) { this.ws.close(); this.ws = null; }
-    clearTimeout(this.reconnectTimer);
+
+    if (this.socket) {
+      this.socket.disconnect();
+      this.socket = null;
+    }
+
     this._setStatus("connecting");
 
-    this.ws = new WebSocket(`ws://localhost:${this.port}`);
+    this.socket = io(`http://localhost:${this.port}`, {
+      transports: ["websocket"],
+      reconnection: false,
+      timeout: 5000,
+    });
 
-    this.ws.onopen = () => {
-      this._setStatus("connected");
-      this.autoReconnect = true;
-    };
+    this.socket.on("connect", () => this._setStatus("connected"));
 
-    this.ws.onmessage = (event) => {
-      let data;
-      try { data = JSON.parse(event.data); } catch {
-        this.onMessage?.({ role: "assistant", content: event.data });
-        return;
-      }
-      switch (data.type) {
-        case "message": this.onMessage?.(data); break;
-        case "token":   this.onToken?.(data.content); break;
-        case "done":    this.onDone?.(); break;
-        case "error":   this.onError?.(data.message || "Engine error"); break;
-        default: if (data.content) this.onMessage?.(data);
-      }
-    };
+    this.socket.on("connect_error", (err) => {
+      this._setStatus("error");
+      this.onError?.(err.message);
+    });
 
-    this.ws.onerror = () => this._setStatus("error");
+    this.socket.on("disconnect", () => this._setStatus("disconnected"));
 
-    this.ws.onclose = () => {
-      this._setStatus("disconnected");
-      if (this.autoReconnect) {
-        this.reconnectTimer = setTimeout(() => this.connect(), 3000);
-      }
-    };
+    // L.I.V.E engine response events
+    this.socket.on("response", (data) => {
+      const content = typeof data === "string" ? data : data?.data || data?.content || JSON.stringify(data);
+      this.onMessage?.({ content });
+    });
+
+    this.socket.on("token", (data) => {
+      const token = typeof data === "string" ? data : data?.content || data?.token || "";
+      this.onToken?.(token);
+    });
+
+    this.socket.on("done", () => {
+      this.onDone?.();
+    });
+  }
+
+  send(text, history) {
+    if (!this.socket?.connected) return;
+    this.socket.emit("message", {
+      message: text,
+      history: history.slice(-12).map(m => ({ role: m.role, content: m.text || "" })),
+    });
   }
 
   disconnect() {
-    this.autoReconnect = false;
-    clearTimeout(this.reconnectTimer);
-    if (this.ws) { this.ws.close(); this.ws = null; }
+    this.socket?.disconnect();
+    this.socket = null;
     this._setStatus("disconnected");
   }
 
-  send(content, history = []) {
-    if (!this.isConnected()) throw new Error("Local engine not connected");
-    this.ws.send(JSON.stringify({
-      type: "message",
-      role: "user",
-      content,
-      history: history.slice(-12).map(m => ({ role: m.role, content: m.text || "" })),
-    }));
-  }
-
   isConnected() {
-    return this.ws?.readyState === WebSocket.OPEN;
+    return this.socket?.connected === true;
   }
 }
 
