@@ -102,6 +102,48 @@ export default function ChatPanel() {
     return data.choices[0].message.content;
   };
 
+  const sendViaLocalEngine = (text, history) => {
+    return new Promise((resolve, reject) => {
+      let full = "";
+
+      const prevMsg = localChatBridge.onMessage;
+      const prevToken = localChatBridge.onToken;
+      const prevDone = localChatBridge.onDone;
+      const prevErr = localChatBridge.onError;
+
+      localChatBridge.onToken = (token) => {
+        full += token;
+        setStreamBuffer(full);
+      };
+
+      localChatBridge.onMessage = (data) => {
+        full = data.content || "";
+        cleanup();
+        resolve(full);
+      };
+
+      localChatBridge.onDone = () => {
+        setStreamBuffer("");
+        cleanup();
+        resolve(full);
+      };
+
+      localChatBridge.onError = (msg) => {
+        cleanup();
+        reject(new Error(msg));
+      };
+
+      const cleanup = () => {
+        localChatBridge.onMessage = prevMsg;
+        localChatBridge.onToken = prevToken;
+        localChatBridge.onDone = prevDone;
+        localChatBridge.onError = prevErr;
+      };
+
+      localChatBridge.send(text, history);
+    });
+  };
+
   const send = async () => {
     const text = input.trim();
     if (!text) return;
@@ -115,7 +157,12 @@ export default function ChatPanel() {
 
     setIsThinking(true);
     try {
-      const response = await callAI(text, [...messages, userMsg]);
+      let response;
+      if (localChatBridge.isConnected()) {
+        response = await sendViaLocalEngine(text, [...messages, userMsg]);
+      } else {
+        response = await callAI(text, [...messages, userMsg]);
+      }
       setIsThinking(false);
       addMsg({ role: "assistant", text: response, type: "text" });
       speak(response);
