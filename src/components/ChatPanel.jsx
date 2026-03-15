@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, Mic, MicOff, Volume2, VolumeX, Paperclip } from "lucide-react";
+import { localChatBridge } from "./localChatBridge";
+import LocalEngineBar from "./LocalEngineBar";
 
 const LOGO = "https://media.base44.com/images/public/user_69af5468cf5d5a8b668927e7/aa22ee38d_ueiiblue.png";
 
