@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Image, Music, Video, Wand2, Download, Loader2 } from "lucide-react";
 
 const TABS = [
-  { id: "image", label: "Image", Icon: Image },
-  { id: "audio", label: "Audio", Icon: Music },
-  { id: "video", label: "Video", Icon: Video },
+  { id: "image", label: "Image", TabIcon: Image },
+  { id: "audio", label: "Audio", TabIcon: Music },
+  { id: "video", label: "Video", TabIcon: Video },
 ];
 
 export default function GeneratePanel() {
