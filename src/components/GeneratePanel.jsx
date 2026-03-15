@@ -44,12 +44,12 @@ export default function GeneratePanel() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-0 px-4 pt-4 flex-shrink-0">
-        {TABS.map(({ id, label, Icon }) => (
-          <button key={id} onClick={() => { setTab(id); setResult(null); setError(""); }}
+        {TABS.map((tabItem) => (
+          <button key={tabItem.id} onClick={() => { setTab(tabItem.id); setResult(null); setError(""); }}
             className={`flex items-center gap-2 px-5 py-2.5 text-xs font-mono uppercase tracking-widest transition-all ${
-              tab === id ? "text-blue-300 border-b-2 border-blue-500" : "text-gray-600 border-b-2 border-transparent hover:text-gray-400"
+              tab === tabItem.id ? "text-blue-300 border-b-2 border-blue-500" : "text-gray-600 border-b-2 border-transparent hover:text-gray-400"
             }`}>
-            <Icon size={13} /> {label}
+            <tabItem.TabIcon size={13} /> {tabItem.label}
           </button>
         ))}
       </div>
