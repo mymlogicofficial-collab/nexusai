@@ -36,7 +36,7 @@ export default function LocalEngineBar({ onStatusChange }) {
     <div className="flex items-center gap-2 px-3 py-1.5 flex-shrink-0"
       style={{ background: "#06060e", borderBottom: "1px solid #111120" }}>
       <StatusIcon size={11} className={cfg.spin ? "animate-spin" : ""} style={{ color: cfg.color }} />
-      <span className="text-[10px] font-mono tracking-widest" style={{ color }}>{label}</span>
+      <span className="text-[10px] font-mono tracking-widest" style={{ color: cfg.color }}>{cfg.label}</span>
 
       <div className="flex-1" />
 
