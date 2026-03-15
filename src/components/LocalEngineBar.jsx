@@ -12,7 +12,7 @@ const STATUS_STYLE = {
 export default function LocalEngineBar({ onStatusChange }) {
   const [status, setStatus] = useState(localChatBridge.status);
   const [showSettings, setShowSettings] = useState(false);
-  const [port, setPort] = useState(String(localChatBridge.port));
+  const [port, setPort] = useState(String(localChatBridge.port || 5000));
 
   useEffect(() => {
     localChatBridge.onStatusChange = (s) => {
