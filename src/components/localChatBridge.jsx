@@ -46,11 +46,14 @@ class LocalChatBridge {
     this.socket.on("disconnect", () => this._setStatus("disconnected"));
 
     // L.I.V.E engine response events
-    this.socket.on("response", (data) => {
-      const content = typeof data === "string" ? data : data?.data || data?.content || JSON.stringify(data);
+    // L.I.V.E. engine events
+    this.socket.on("bot_message", (data) => {
+      const content = typeof data === "string" ? data : data?.message || data?.content || JSON.stringify(data);
       this.onMessage?.({ content });
+      this.onDone?.();
     });
 
+    // fallback for streaming engines
     this.socket.on("token", (data) => {
       const token = typeof data === "string" ? data : data?.content || data?.token || "";
       this.onToken?.(token);
