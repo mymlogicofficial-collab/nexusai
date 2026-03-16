@@ -66,7 +66,7 @@ class LocalChatBridge {
 
   send(text, history) {
     if (!this.socket?.connected) return;
-    this.socket.emit("message", {
+    this.socket.emit("user_message", {
       message: text,
       history: history.slice(-12).map(m => ({ role: m.role, content: m.text || "" })),
     });
