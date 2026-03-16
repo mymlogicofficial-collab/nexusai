@@ -59,7 +59,7 @@ export default function IdentityPanel() {
               <img src={LOGO} alt="MYM Logic" className="w-12 h-12 object-contain" style={{filter:"drop-shadow(0 0 10px rgba(59,130,246,.6))"}} />
               <div>
                 <p className="said-title text-blue-400 font-bold text-sm">S.A.I.D.</p>
-                <p className="text-xs text-gray-600 font-mono">SYNTHETIC ADAPTIVE INTUITIVE DESIGNER</p>
+                <p className="text-xs text-gray-600 font-mono">STRATEGIC ANALYTICAL INFORMATION DEPLOYMENT</p>
                 <p className="text-xs text-blue-900 font-mono">MYM LOGIC LLC</p>
               </div>
             </div>

@@ -64,7 +64,7 @@ export default function SplashScreen({ onComplete }) {
       <div className={`mt-8 text-center transition-all duration-700 ${phase >= 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
         <h1 className="said-title text-6xl font-black text-white text-glow tracking-widest">S.A.I.D.</h1>
         <p className="text-blue-400 text-xs font-mono tracking-widest mt-3" style={{ letterSpacing: "0.22em" }}>
-          STRATEGIZED · ANALYZED · IMPROVISED · DESIGNS
+          STRATEGIC · ANALYTICAL · INFORMATION · DEPLOYMENT
         </p>
         <p className="text-blue-800 text-xs font-mono tracking-widest mt-1">MYM LOGIC LLC</p>
       </div>

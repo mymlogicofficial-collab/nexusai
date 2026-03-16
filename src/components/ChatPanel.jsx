@@ -202,7 +202,7 @@ export default function ChatPanel() {
             <img src={LOGO} alt="S.A.I.D." className="w-20 h-20 object-contain"
               style={{ filter: "drop-shadow(0 0 20px rgba(59,130,246,0.6))" }} />
             <p className="said-title text-blue-400 text-2xl">S.A.I.D.</p>
-            <p className="text-gray-600 text-xs font-mono">STRATEGIZED · ANALYZED · IMPROVISED · DESIGNS</p>
+            <p className="text-gray-600 text-xs font-mono">STRATEGIC · ANALYTICAL · INFORMATION · DEPLOYMENT</p>
           </div>
         )}
         {messages.map((msg, i) => <MessageBubble key={i} msg={msg} />)}
