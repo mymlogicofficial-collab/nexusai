@@ -80,7 +80,12 @@ export default function IdentityPanel() {
               <select value={id.model} onChange={e=>setId(i=>({...i,model:e.target.value}))}
                 className="w-full rounded-lg px-3 py-2.5 text-sm text-gray-200 font-mono outline-none"
                 style={{background:"#0d0d1a",border:"1px solid #1a1a2e"}}>
+                <optgroup label="── Local (Ollama)">
+                {["gemma3:12b","gemma:7b","llama3","llama3:8b","mistral","mixtral","phi3","deepseek-r1"].map(m=><option key={m} value={m}>{m}</option>)}
+              </optgroup>
+              <optgroup label="── OpenAI (API Key Required)">
                 {["gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-4","gpt-3.5-turbo"].map(m=><option key={m} value={m}>{m}</option>)}
+              </optgroup>
               </select>
             </div>
             {field("apiKey","OpenAI API Key","sk-...","password")}
