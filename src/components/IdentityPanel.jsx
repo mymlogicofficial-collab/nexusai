@@ -76,7 +76,7 @@ export default function IdentityPanel() {
               Keys stored locally only. Never sent anywhere except the configured API endpoints.
             </div>
             <div>
-              <label className="text-xs font-mono text-gray-600 uppercase tracking-widest block mb-1.5">OpenAI Model</label>
+              <label className="text-xs font-mono text-gray-600 uppercase tracking-widest block mb-1.5">AI Model</label>
               <select value={id.model} onChange={e=>setId(i=>({...i,model:e.target.value}))}
                 className="w-full rounded-lg px-3 py-2.5 text-sm text-gray-200 font-mono outline-none"
                 style={{background:"#0d0d1a",border:"1px solid #1a1a2e"}}>
