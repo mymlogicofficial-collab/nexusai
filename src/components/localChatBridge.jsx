@@ -4,7 +4,7 @@ class LocalChatBridge {
   constructor() {
     this.socket = null;
     this.status = "disconnected";
-    this.port = parseInt(localStorage.getItem("said_local_port") || "5000", 10);
+    this.port = parseInt(localStorage.getItem("said_local_port") || "5055", 10);
     this.onStatusChange = null;
     this.onMessage = null;
     this.onToken = null;
