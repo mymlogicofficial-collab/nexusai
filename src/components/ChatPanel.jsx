@@ -158,7 +158,9 @@ export default function ChatPanel() {
     setIsThinking(true);
     try {
       let response;
-      if (localChatBridge.isConnected()) {
+      const useLocal = localChatBridge.isConnected();
+      console.log("[S.A.I.D.] useLocal:", useLocal, "status:", localChatBridge.status);
+      if (useLocal) {
         response = await sendViaLocalEngine(text, [...messages, userMsg]);
       } else {
         response = await callAI(text, [...messages, userMsg]);
