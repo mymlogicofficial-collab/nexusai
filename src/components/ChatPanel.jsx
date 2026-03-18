@@ -213,7 +213,16 @@ export default function ChatPanel() {
 
     setIsThinking(true);
     try {
-      const response = await callOllama(text, [...messages, userMsg]);
+      const id = getIdentity();
+      const model = id.model || "gemini-2.0-flash";
+      let response;
+      if (model.startsWith("gemini")) {
+        response = await callGemini(text, [...messages, userMsg]);
+      } else if (["gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-3.5-turbo","gpt-4"].some(m => model.startsWith(m))) {
+        response = await callAI(text, [...messages, userMsg]);
+      } else {
+        response = await callOllama(text, [...messages, userMsg]);
+      }
       setIsThinking(false);
       addMsg({ role: "assistant", text: response, type: "text" });
       speak(response);
