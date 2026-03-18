@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Save, CheckCircle, Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react";
 
 const LOGO = "https://media.base44.com/images/public/user_69af5468cf5d5a8b668927e7/aa22ee38d_ueiiblue.png";
-const DEFAULT = { name:"", personality:"", communicationStyle:"", systemPrompt:"", apiKey:"", model:"gpt-4o", audioApiKey:"", videoApiKey:"", customEndpoint:"" };
+const DEFAULT = { name:"", personality:"", communicationStyle:"", systemPrompt:"", apiKey:"", geminiApiKey:"", model:"gemini-2.0-flash", audioApiKey:"", videoApiKey:"", customEndpoint:"" };
 
 export default function IdentityPanel() {
   const [id, setId] = useState(DEFAULT);
@@ -80,14 +80,18 @@ export default function IdentityPanel() {
               <select value={id.model} onChange={e=>setId(i=>({...i,model:e.target.value}))}
                 className="w-full rounded-lg px-3 py-2.5 text-sm text-gray-200 font-mono outline-none"
                 style={{background:"#0d0d1a",border:"1px solid #1a1a2e"}}>
-                <optgroup label="── Local (Ollama)">
-                {["gemma3:12b","gemma:7b","llama3","llama3:8b","mistral","mixtral","phi3","deepseek-r1"].map(m=><option key={m} value={m}>{m}</option>)}
+                <optgroup label="── Google Gemini (Gemini API Key)">
+                {["gemini-2.0-flash","gemini-2.0-flash-lite","gemini-1.5-pro","gemini-1.5-flash"].map(m=><option key={m} value={m}>{m}</option>)}
               </optgroup>
-              <optgroup label="── OpenAI (API Key Required)">
-                {["gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-4","gpt-3.5-turbo"].map(m=><option key={m} value={m}>{m}</option>)}
+              <optgroup label="── OpenAI (OpenAI API Key)">
+                {["gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-3.5-turbo"].map(m=><option key={m} value={m}>{m}</option>)}
+              </optgroup>
+              <optgroup label="── Local (Ollama)">
+                {["gemma3:12b","gemma:7b","llama3","llama3:8b","mistral","mixtral","phi3","deepseek-r1"].map(m=><option key={m} value={m}>{m}</option>)}
               </optgroup>
               </select>
             </div>
+            {field("geminiApiKey","Google Gemini API Key","AIza...","password")}
             {field("apiKey","OpenAI API Key","sk-...","password")}
             {field("audioApiKey","Audio API Key (ElevenLabs/Suno)","API key for audio generation","password")}
             {field("videoApiKey","Video API Key (Runway/Kling)","API key for video generation","password")}
