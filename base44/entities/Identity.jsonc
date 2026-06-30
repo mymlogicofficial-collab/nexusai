@@ -1,0 +1,38 @@
+{
+  "name": "Identity",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "personality": {
+      "type": "string"
+    },
+    "communicationStyle": {
+      "type": "string"
+    },
+    "systemPrompt": {
+      "type": "string"
+    },
+    "apiKey": {
+      "type": "string"
+    },
+    "geminiApiKey": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string",
+      "default": "gemini-2.0-flash"
+    },
+    "audioApiKey": {
+      "type": "string"
+    },
+    "videoApiKey": {
+      "type": "string"
+    },
+    "customEndpoint": {
+      "type": "string"
+    }
+  },
+  "required": []
+}
